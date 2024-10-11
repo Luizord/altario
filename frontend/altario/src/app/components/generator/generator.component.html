@@ -1,26 +1,35 @@
-<div>
-    <div class="grid-input">
-        <label>Character</label>
-        <input placeholder="" [(ngModel)]="weightedCharacter">
+<div class="page-container">
+    <div class="grid-header spacing-bottom-regular">
+        <div class="grid-header-input">
+            <label>Character</label>
+            <input type="text" [disabled]="isDisabled" [ngModel]="weightedCharacter" mask="S" (ngModelChange)="weightedCharacter=$event;disableInput();">
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none" stroke="#8D9CA1" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"
+            [class]="interval ? 'icon-clock icon-clock-live' : 'icon-clock'" ngClass viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="6" x2="12" y2="12"></line>
+            <line x1="12" y1="12" x2="8" y2="10"></line>
+        </svg>
+        <div class="grid-header-button">
+            <button (click)="loadGridData(); getGridData()">GENERATE 2D GRID</button>
+        </div>
     </div>
-    <span>
-    </span>
-    <button (click)="loadGridData(); getGridData()">GENERATE 2D GRID</button>
-</div>
-@if (gridData) {
-<div>
-    @for (column of gridData.grid; track column) {
-    <mat-grid-list [cols]="gridData.grid.length" rowHeight="2:1" gutterSize="0" class="grid-list">
-        @for (row of column; track row) {
-        <mat-grid-tile>{{row}}</mat-grid-tile>
+    @if (gridData) {
+    <div class="grid spacing-bottom-regular">
+        @for (column of gridData.grid; track column) {
+        <mat-grid-list [cols]="gridData.grid.length" rowHeight="80px" gutterSize="0" class="grid-list">
+            @for (row of column; track row) {
+            <mat-grid-tile>{{row}}</mat-grid-tile>
+            }
+        </mat-grid-list>
         }
-    </mat-grid-list>
+    </div>
+    <div class="grid-live spacing-bottom-small">
+        <span [class]="interval ? 'grid-live-dot green' : 'grid-live-dot'"></span>LIVE
+    </div>
+    <div class="grid-code pacing-bottom-small">
+        YOUR CODE: <span class="grid-code-code">{{gridData.code}}</span>
+    </div>
     }
 </div>
-<div>
-    <span>LIVE</span>
-</div>
-<div>
-    <span>YOUR CODE: {{gridData.code}}</span>
-</div>
-}

@@ -1,6 +1,97 @@
-.grid-list {
+@import '../../../mixins.scss';
 
+.grid-list {
     mat-grid-tile {
         border: 1px solid black;
     }
+}
+
+.grid-header {
+    display: flex;
+    justify-content: space-between;
+
+    @include mobile {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &-input {
+        display: flex;
+        flex-direction: column;
+        width: 10%;
+
+        @include mobile {
+            width: auto;
+            margin-bottom: 10px;
+        }
+    }
+
+    &-button {
+        display: flex;
+        align-items: center;
+        @include mobile {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.grid-live {
+    font-weight: bold;
+    align-self: center;
+}
+
+.grid-code {
+    font-size: 1.5rem;
+    border: 1px solid black;
+    text-align: center;
+    width: 15%;
+    padding: 35px 25px;
+    align-self: center;
+    border-radius: 3px;
+
+    @include mobile {
+        font-size: 1rem;
+        width: 50%;
+        padding: 25px 15px;
+    }
+
+    &-code {
+        font-weight: bold;
+    }
+}
+
+.icon-clock {
+    width: 70px;
+    height: 70px;
+    stroke: #8D9CA1;
+    transition: stroke 0.3s ease;
+
+    @include mobile {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+
+    &-live {
+        stroke: #2d7a94;
+    }
+}
+
+.icon-clock:hover {
+    stroke: #6F828A;
+}
+
+.grid-live-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    vertical-align: middle;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.green {
+    background-color: green;
 }

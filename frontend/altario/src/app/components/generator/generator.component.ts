@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { GridService } from '../../services/grid.service';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-generator',
   standalone: true,
-  imports: [MatGridListModule, MatButtonModule, FormsModule, MatFormFieldModule, MatInputModule],
+  imports: [MatGridListModule, FormsModule, NgxMaskDirective],
+  providers: [provideNgxMask()],
   templateUrl: './generator.component.html',
   styleUrl: './generator.component.scss'
 })
@@ -29,6 +28,7 @@ export class GeneratorComponent {
   ["", "", "", "", "", "", "", "", "", ""]
   ];
   interval?: NodeJS.Timeout;
+  isDisabled: boolean = false;
 
   constructor(private gridService: GridService) {
     this.gridData = { grid: this.emptyGrid, code: "--" };
@@ -55,6 +55,17 @@ export class GeneratorComponent {
         console.error('Error fetching grid data:', err);
       }
     });
+  }
+
+  disableInput(): void {
+    if (!this.weightedCharacter) {
+      return;
+    }
+    this.isDisabled = true;
+
+    setTimeout(() => {
+      this.isDisabled = false; // Re-enable the input field after 4 seconds
+    }, 4000);
   }
 
 }
