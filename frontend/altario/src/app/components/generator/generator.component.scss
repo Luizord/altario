@@ -1,0 +1,79 @@
+@import '../../../mixins.scss';
+
+.grid-list {
+    mat-grid-tile {
+        border: 1px solid black;
+    }
+}
+
+.grid-header {
+    display: flex;
+    justify-content: space-between;
+
+    @include mobile {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &-input {
+        display: flex;
+        flex-direction: column;
+        width: 10%;
+
+        @include mobile {
+            width: auto;
+            margin-bottom: 10px;
+        }
+    }
+
+    &-button {
+        display: flex;
+        align-items: center;
+
+        @include mobile {
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.icon-clock {
+    width: 70px;
+    height: 70px;
+    stroke: #8D9CA1;
+    transition: stroke 0.3s ease;
+
+    @include mobile {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+    }
+
+    &-live {
+        stroke: #2d7a94;
+    }
+}
+
+.icon-clock:hover {
+    stroke: #6F828A;
+}
+
+.navigation-label {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    label {
+        font-size: 2rem;
+        padding: 10px;
+        color: #8D9CA1;
+        cursor: pointer;
+        margin-bottom: 0px;
+        display: flex;
+        align-items: center;
+    }
+
+    .icon {
+        font-size: 38px;
+        vertical-align: middle;
+    }
+}
