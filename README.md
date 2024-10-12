@@ -26,3 +26,13 @@ To create a new entry the user has to start the grid generation and populate the
 To delete an entry one must click and entry on the table, a confirmation dialog will appear, selecting yes will delete the entry.
 
 The backend app now contains a json file to store the payments and a new payments service CRUD API.
+
+## Possible improvements
+
+Add missing typings
+
+Add more comments
+
+Add frontend and backend tests
+
+Replace payments storing with actual DB

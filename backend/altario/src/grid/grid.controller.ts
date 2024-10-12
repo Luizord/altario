@@ -7,7 +7,7 @@ export class GridController {
     constructor(private readonly gridService: GridService) {}
 
     @Post()
-    createProduct(@Body() body?: any) {
+    generateGrid(@Body() body?: any) {
         const grid = this.gridService.generateGrid(10, 10, body?.weightedChar)
         return { grid: grid, code: this.gridService.getGridCode(grid) };
     }
