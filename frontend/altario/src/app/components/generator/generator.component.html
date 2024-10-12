@@ -1,0 +1,36 @@
+<div class="page-container">
+    <div class="navigation-label">
+        <label (click)="navigate()">Payments<span class="material-icons icon">
+                chevron_right
+            </span></label>
+    </div>
+    <div class="grid-header spacing-bottom-regular">
+        <div class="grid-header-input">
+            <label>Character</label>
+            <input type="text" [disabled]="isDisabled" [ngModel]="weightedCharacter" mask="S"
+                (ngModelChange)="changedCharacterEvent($event)">
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="none" stroke="#8D9CA1" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" [class]="live ? 'icon-clock icon-clock-live' : 'icon-clock'"
+            ngClass viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="6" x2="12" y2="12"></line>
+            <line x1="12" y1="12" x2="8" y2="10"></line>
+        </svg>
+        <div class="grid-header-button">
+            <button (click)="startGridGeneration();">GENERATE 2D GRID</button>
+        </div>
+    </div>
+    @if (gridData) {
+    <div class="grid spacing-bottom-regular">
+        @for (column of gridData.grid; track $index) {
+        <mat-grid-list [cols]="gridData.grid.length" rowHeight="80px" gutterSize="0" class="grid-list">
+            @for (row of column; track $index) {
+            <mat-grid-tile>{{row}}</mat-grid-tile>
+            }
+        </mat-grid-list>
+        }
+    </div>
+    <app-gridcode [code]="gridData.code" [live]="live"></app-gridcode>
+    }
+</div>
