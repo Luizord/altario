@@ -31,7 +31,7 @@ jobs:
 
       - name: Build Backend
         working-directory: ./backend/altario
-        run: npm run buil
+        run: npm run build
         
       # Commented due to lack of tests
       #- name: Run Backend Tests
