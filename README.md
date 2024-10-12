@@ -19,3 +19,9 @@ The frontend also includes resposive styles for mobile screens.
 For the backend application I used the Nestjs framework for better code structuring and to speed up development, ideally for such a small application I would stick to just using express but i'm thinking ahead to possible bonus features.
 The backend only has one endpoint, it receives an optional input in form of a single character it generates the grid and then generates a code based on that grid, it returns both the grid and the code in a single object.
 
+## Possible improvements
+
+Add missing typings
+Add more comments
+Add frontend and backend tests
+
