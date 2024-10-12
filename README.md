@@ -22,6 +22,8 @@ The backend only has one endpoint, it receives an optional input in form of a si
 ## Possible improvements
 
 Add missing typings
+
 Add more comments
+
 Add frontend and backend tests
 
