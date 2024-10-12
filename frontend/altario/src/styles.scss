@@ -55,6 +55,13 @@ button:hover {
     background-color: #6F828A;
 }
 
+button:disabled {
+    background-color: #E5E5E5;
+    border-color: #CCCCCC;
+    color: #AAAAAA;
+    opacity: 0.6;
+}
+
 label {
     font-size: 0.8rem;
     color: #8D9CA1;

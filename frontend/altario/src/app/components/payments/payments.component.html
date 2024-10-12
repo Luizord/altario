@@ -1,25 +1,29 @@
 <div class="page-container">
+
     <div class="navigation-label">
         <label (click)="navigate()"><span class="material-icons icon">
                 chevron_left
             </span>Back</label>
     </div>
-    @if (gridData) {
-    <app-gridcode [code]="gridData.code" [live]="live" class="spacing-bottom-regular"></app-gridcode>
-    }
+
+    <app-gridcode [code]="gridData!.code" [live]="live" class="spacing-bottom-regular"></app-gridcode>
+
     <div class="payments-form spacing-bottom-regular">
         <div class="payments-form-input">
             <label>Payment</label>
-            <input type="text" [(ngModel)]="name">
+            <input type="text" mask="A*" [(ngModel)]="name" [disabled]="disabled">
         </div>
         <div class="payments-form-input">
             <label>Ammount</label>
-            <input type="text" mask="09*" [(ngModel)]="ammount">
+            <input type="text" mask="09*" [(ngModel)]="ammount" [disabled]="disabled">
         </div>
         <div class="payments-form-button">
-            <button>+ ADD</button>
+            <button [disabled]="disabled || !live || !name || !ammount" (click)="addPayments()">+ ADD</button>
         </div>
     </div>
+
+    @if (dataSource) {
+
     <div class="payments-table">
         <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="name">
@@ -39,7 +43,10 @@
                 <td mat-cell *matCellDef="let element"> {{getGridSize(element.grid)}} </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openDialog(row)" class="payments-table-row"></tr>
         </table>
     </div>
+
+    }
+
 </div>

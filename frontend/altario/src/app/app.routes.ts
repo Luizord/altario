@@ -5,4 +5,5 @@ import { PaymentsComponent } from './components/payments/payments.component';
 export const routes: Routes = [
     { path: '', component: GeneratorComponent },
     { path: 'payments', component: PaymentsComponent },
+    { path: '**', redirectTo: '' ,pathMatch: 'full' }
 ];

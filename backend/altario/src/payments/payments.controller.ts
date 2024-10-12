@@ -8,8 +8,8 @@ export class PaymentsController {
 
     // CREATE payment
     @Post()
-    async create(@Body() createpaymentDto: PaymentDTO): Promise<Payment[]> {
-        return await this.paymentService.create(createpaymentDto);
+    async create(@Body() body: { createpaymentDto: PaymentDTO }): Promise<Payment[]> {
+        return await this.paymentService.create(body.createpaymentDto);
     }
 
     // GET ALL payments
@@ -18,21 +18,21 @@ export class PaymentsController {
         return await this.paymentService.findAll();
     }
 
-    //   // GET a payment by ID
-    //   @Get(':id')
-    //   findOne(@Param('id') id: string): Payment {
-    //     return this.paymentService.findOne(+id); // +id converts string to number
-    //   }
+    // GET a payment by ID
+    @Get(':id')
+    findOne(@Param('id') id: string): Promise<Payment> {
+        return this.paymentService.findOne(+id);
+    }
 
-    //   // UPDATE a payment by ID
-    //   @Patch(':id')
-    //   update(@Param('id') id: string, @Body() updatepaymentDto: UpdatePaymentDTO): Payment {
-    //     return this.paymentService.update(+id, updatepaymentDto);
-    //   }
+    // UPDATE a payment by ID
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updatepaymentDto: UpdatePaymentDTO): Promise<Payment[]> {
+        return this.paymentService.update(+id, updatepaymentDto);
+    }
 
-    //   // DELETE a payment by ID
-    //   @Delete(':id')
-    //   remove(@Param('id') id: string): void {
-    //     return this.paymentService.remove(+id);
-    //   }
+    // DELETE a payment by ID
+    @Delete(':id')
+    remove(@Param('id') id: string): Promise<Payment[]> {
+        return this.paymentService.remove(+id);
+    }
 }

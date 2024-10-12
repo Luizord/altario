@@ -24,16 +24,15 @@ export class GridService {
     ];
     private emptyGridData = { grid: this.emptyGrid, code: "--" };
 
-    // BehaviorSubject will store the state and emit the last value to new subscribers
+    // This gridState will store the grid and emit the last value to subscribers as it gets updates
     gridState = new BehaviorSubject<GridData>(this.emptyGridData);
-    // liveState to check if generation is currently live
+    // Use liveState to check if generation is currently live
     private liveState = new BehaviorSubject<boolean>(false);
     liveState$: Observable<boolean> = this.liveState.asObservable();
 
 
     constructor(private http: HttpClient) { }
 
-    // Method to get data from the API
     getGridData(weightedChar?: string): Observable<GridData> {
         return this.http.post<any>(`${environment.serverUrl}/grid`, { weightedChar: weightedChar });
     }
@@ -42,14 +41,12 @@ export class GridService {
         clearInterval(this.interval);
         this.liveState.next(true);
         this.interval = setInterval(() => {
-            console.log(weightedChar)
             this.getGridData(weightedChar).pipe(
                 tap(response => {
-                    // Update the state with the new data
+                    // Update the state with the new grid
                     this.gridState.next(response);
                 }),
                 catchError(error => {
-                    // Handle error, here you can set the error state
                     console.error('Error fetching data', error);
                     this.gridState.next(this.emptyGridData);
                     throw error;

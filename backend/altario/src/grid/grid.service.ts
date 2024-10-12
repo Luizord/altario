@@ -13,12 +13,14 @@ export class GridService {
         }
 
         const totalCells = rows * columns;
-        const weightedCells = weightedChar ? Math.floor(totalCells * 0.2) : 0; // 20% of the total cells
+        // Get 20% of the total cells
+        const weightedCells = weightedChar ? Math.floor(totalCells * 0.2) : 0; 
         const weightedCharPositions = new Set<number>();
 
         if (weightedChar) {
             while (weightedCharPositions.size < weightedCells) {
-                weightedCharPositions.add(Math.floor(Math.random() * totalCells)); //Create a Set used to randomly choose unique positions for placing the weightedChar. This ensures there are no duplicates, and 20% of the cells are filled with it.
+                //Create a Set used to randomly choose unique positions for placing the weightedChar. This ensures there are no duplicates, and 20% of the cells are filled with it.
+                weightedCharPositions.add(Math.floor(Math.random() * totalCells)); 
             }
         }
 
@@ -27,9 +29,10 @@ export class GridService {
             const row: string[] = [];
             for (let j = 0; j < columns; j++) {
                 if (weightedChar && weightedCharPositions.has(cellIndex)) {
-                    row.push(weightedChar.toUpperCase()); // Place the weighted character if it mactches the index of the set
+                    // Place the weighted character if it mactches the index of the set
+                    row.push(weightedChar.toUpperCase()); 
                 } else {
-                    row.push(this.generateRandomAlphabet()); // Place a random character instead
+                    row.push(this.generateRandomAlphabet());
                 }
                 cellIndex++;
             }
@@ -41,13 +44,15 @@ export class GridService {
 
     public getGridCode(grid: string[][]): string {
         const date = new Date();
-        const seconds = date.getSeconds(); // Get the two-digit seconds
-        const secondsStr = seconds.toString().padStart(2, '0'); // Pad with 0 if necessary
+        // Get the two-digit seconds
+        const seconds = date.getSeconds();
+        // Pad with 0 if necessary
+        const secondsStr = seconds.toString().padStart(2, '0');
         // Extract the digits
         const row1 = parseInt(secondsStr[0]);
         const col1 = parseInt(secondsStr[1]);
 
-        // Fetch the characters at positions [row1, col1] and [col1, row1]
+        // Fetch the characters
         const char1 = grid[row1][col1];
         const char2 = grid[col1][row1];
 
@@ -85,12 +90,12 @@ export class GridService {
 
     private adjustCount(count: number): number {
         while (count > 9) {
-            count = Math.floor(count / 2); // Divide by the lowest integer possible until it's <= 9
+            count = Math.floor(count / 2); // Divide by the lowest integer until the result <= 9
         }
         return count;
     }
 
-    // Alternate solution to adjust the code number
+    // Alternate solution to adjust the code number to be <=9
     private alternateAdjustCount(count: number): number {
         for (let i = 2; i <= count; i++) {
             if (Math.floor(count / i) < 9) {

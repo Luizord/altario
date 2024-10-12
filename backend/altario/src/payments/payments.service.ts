@@ -25,7 +25,7 @@ export class PaymentsService {
 
     // Helper method to write payments to the file
     private async writepaymentsToFile(payments: Payment[]): Promise<void> {
-        await fs.writeJson(this.filePath, payments, { spaces: 2 }); // Writing with pretty formatting (spaces: 2)
+        await fs.writeJson(this.filePath, payments, { spaces: 2 });
     }
 
     // CREATE
@@ -33,7 +33,10 @@ export class PaymentsService {
         let payments = await this.readpaymentsFromFile();
         const newpayment: Payment = {
             id: payments.length + 1, // Auto-generate an ID
-            ...createpaymentDto,
+            name: createpaymentDto.name,
+            ammount: createpaymentDto.ammount,
+            grid: createpaymentDto.grid,
+            code: createpaymentDto.code,
         };
         payments.push(newpayment);
         await this.writepaymentsToFile(payments); // Write the updated list to the file
@@ -42,36 +45,49 @@ export class PaymentsService {
 
     // READ ALL
     async findAll(): Promise<Payment[]> {
-        return await this.readpaymentsFromFile(); // Read products from the JSON file
+        return await this.readpaymentsFromFile(); // Read payments from the JSON file
     }
 
     // READ ONE
-    // findOne(id: number): Payment {
-    //     const payment = this.payments.find((prod) => prod.id === id);
-    //     if (!payment) {
-    //         throw new NotFoundException(`payment with ID ${id} not found`);
-    //     }
-    //     return payment;
-    // }
+    async findOne(id: number): Promise<Payment> {
+        const payments = await this.readpaymentsFromFile();
+        const payment = payments.find((prod) => prod.id === id);
+
+        if (!payment) {
+            throw new NotFoundException(`payment with ID ${id} not found`);
+        }
+
+        return payment;
+    }
 
     // UPDATE
-    // update(id: number, updatepaymentDto: UpdatePaymentDTO): Payment {
-    //     const paymentIndex = this.payments.findIndex((prod) => prod.id === id);
-    //     if (paymentIndex === -1) {
-    //         throw new NotFoundException(`payment with ID ${id} not found`);
-    //     }
+    async update(id: number, updatepaymentDto: UpdatePaymentDTO): Promise<Payment[]> {
+        const payments = await this.readpaymentsFromFile();
+        const paymentIndex = payments.findIndex((prod) => prod.id === id);
 
-    //     const updatedpayment = { ...this.payments[paymentIndex], ...updatepaymentDto };
-    //     this.payments[paymentIndex] = updatedpayment;
-    //     return updatedpayment;
-    // }
+        if (paymentIndex === -1) {
+            throw new NotFoundException(`payment with ID ${id} not found`);
+        }
 
-    // // DELETE
-    // remove(id: number): void {
-    //     const paymentIndex = this.payments.findIndex((prod) => prod.id === id);
-    //     if (paymentIndex === -1) {
-    //         throw new NotFoundException(`payment with ID ${id} not found`);
-    //     }
-    //     this.payments.splice(paymentIndex, 1);
-    // }
+        const updatedpayment = { ...payments[paymentIndex], ...updatepaymentDto };
+        payments[paymentIndex] = updatedpayment;
+
+        await this.writepaymentsToFile(payments);
+        return payments;
+    }
+
+    // DELETE
+    async remove(id: number): Promise<Payment[]> {
+        const payments = await this.readpaymentsFromFile();
+        const paymentIndex = payments.findIndex((pay) => pay.id === id);
+
+        if (paymentIndex === -1) {
+            throw new NotFoundException(`payment with ID ${id} not found`);
+        }
+
+        payments.splice(paymentIndex, 1); // Remove the payment
+
+        await this.writepaymentsToFile(payments);
+        return payments;
+    }
 }

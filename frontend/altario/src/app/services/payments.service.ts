@@ -16,7 +16,11 @@ export class PaymentsService {
     }
 
     addPayment(paymentData: PaymentData): Observable<PaymentData[]> {
-        return this.http.post<any>(`${environment.serverUrl}/payments`, {createpaymentDto: paymentData});
+        return this.http.post<any>(`${environment.serverUrl}/payments`, { createpaymentDto: paymentData });
+    }
+
+    removePayment(id: number) {
+        return this.http.delete<any>(`${environment.serverUrl}/payments/${id}`);
     }
 
 }
