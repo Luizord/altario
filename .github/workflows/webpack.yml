@@ -31,7 +31,7 @@ jobs:
 
       - name: Build Backend
         working-directory: ./backend/altario
-        run: npm run buil
+        run: npm run build
         
       # Commented due to lack of tests
       #- name: Run Backend Tests
@@ -45,8 +45,8 @@ jobs:
       - name: Build Frontend
         working-directory: ./frontend/altario
         run: |
-          npm run build -- --prod  # Angular production build
-          npx webpack --config webpack.config.js  # Webpack build
+          npm run build -- --production
+          npx webpack --config webpack.config.js
 
       # Commented due to lack of tests
       # - name: Run Frontend Tests
@@ -64,12 +64,12 @@ jobs:
       - name: Deploy Backend
         working-directory: ./backend/altario
         run: |
-          # Example: deployment commands for backend (e.g., Azure, AWS, etc.)
+          # Example deployment commands for backend (e.g., Azure, AWS, etc.)
           echo "Deploy backend"
           
       - name: Deploy Frontend
         working-directory: ./frontend/altario
         run: |
-          # Dployment commands for frontend (e.g., Netlify, Firebase)
+          # Deployment commands for frontend (e.g., Netlify, Firebase)
           echo "Deploy frontend"
 
