@@ -45,8 +45,8 @@ jobs:
       - name: Build Frontend
         working-directory: ./frontend/altario
         run: |
-          npm run build --prod
-          npx webpack --config webpack.config.js
+          npm install
+          npm run build
 
       # Commented due to lack of tests
       # - name: Run Frontend Tests
