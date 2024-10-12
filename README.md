@@ -28,6 +28,11 @@ To delete an entry one must click and entry on the table, a confirmation dialog 
 
 The backend app now contains a json file to store the payments and a new payments service CRUD API.
 
+## CI/CD
+
+Added webpack instructios for CI/CD pipeline
+Added docker files for packaging instructions
+
 ## Possible improvements
 
 Add missing typings
