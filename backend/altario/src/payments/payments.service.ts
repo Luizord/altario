@@ -2,15 +2,16 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Payment, PaymentDTO, UpdatePaymentDTO } from 'src/models/payment.model';
 import * as fs from 'fs-extra';
 import { join } from 'path';
+import { SubscribeMessage, MessageBody, ConnectedSocket } from '@nestjs/websockets';
+import { Socket } from 'dgram';
+import { RealTimeGateway } from 'src/gateway/websocket.gateway';
 
 @Injectable()
 export class PaymentsService {
 
     private readonly filePath = join(__dirname, '..', '..', 'src', 'data', 'payments.json');; // Simulating a simple in-memory storage for payments
 
-    constructor() {
-
-    }
+    constructor(private readonly realTimeGateway: RealTimeGateway) {}
 
     // Helper method to read payments from the file
     private async readpaymentsFromFile(): Promise<Payment[]> {
@@ -40,6 +41,7 @@ export class PaymentsService {
         };
         payments.push(newpayment);
         await this.writepaymentsToFile(payments); // Write the updated list to the file
+        this.realTimeGateway.server.emit('dataUpdated', newpayment);
         return payments;
     }
 
@@ -72,6 +74,8 @@ export class PaymentsService {
         const updatedpayment = { ...payments[paymentIndex], ...updatepaymentDto };
         payments[paymentIndex] = updatedpayment;
 
+        this.realTimeGateway.server.emit('dataUpdated', updatedpayment);
+
         await this.writepaymentsToFile(payments);
         return payments;
     }
@@ -80,14 +84,17 @@ export class PaymentsService {
     async remove(id: number): Promise<Payment[]> {
         const payments = await this.readpaymentsFromFile();
         const paymentIndex = payments.findIndex((pay) => pay.id === id);
+        const deletedPayment = payments[paymentIndex];
 
         if (paymentIndex === -1) {
             throw new NotFoundException(`payment with ID ${id} not found`);
         }
 
         payments.splice(paymentIndex, 1); // Remove the payment
+        this.realTimeGateway.server.emit('dataDeleted', deletedPayment);
 
         await this.writepaymentsToFile(payments);
         return payments;
     }
+
 }
